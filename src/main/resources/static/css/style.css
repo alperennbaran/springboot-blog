@@ -1,0 +1,16 @@
+.custom-header {
+    background-color: #0F52BA;
+    color: white;
+}
+.custom-navbar {
+    background-color: #0F52BA;
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link {
+    color: white !important;
+}
+
+.custom-navbar .nav-link:hover {
+    text-decoration: underline;
+}
