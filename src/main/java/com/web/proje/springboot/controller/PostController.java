@@ -6,9 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,6 +42,50 @@ public class PostController {
         postDto.setUrl(getUrl(postDto.getTitle()));
         postService.createPost(postDto);
         return "redirect:/admin/posts";
+    }
+
+    @GetMapping("/admin/posts/{postID}/update")
+    public String editPost(@PathVariable("postID") Long postID, Model model) {
+        PostDto postDto = postService.findPostById(postID);
+        model.addAttribute("post", postDto);
+        return "/admin/update_post";
+    }
+
+    @PostMapping("/admin/posts/{postID}")
+    public String updatePost(@PathVariable("postID") Long postID,
+                             @Valid @ModelAttribute("post") PostDto post,
+                             BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("post", post);
+            return "/admin/update_post";
+        }
+
+        post.setId(postID);
+        postService.updatePost(post);
+        return "redirect:/admin/posts";
+    }
+
+    @GetMapping("/admin/posts/{postId}/delete")
+    public String deletePost(@PathVariable("postId") Long postId){
+        postService.deletePost(postId);
+        return "redirect:/admin/posts";
+    }
+
+    // handler method to handle view post request
+    @GetMapping("/admin/posts/{postUrl}/view")
+    public String viewPost(@PathVariable("postUrl") String postUrl,
+                           Model model){
+        PostDto postDto = postService.findPostByUrl(postUrl);
+        model.addAttribute("post", postDto);
+        return "admin/view_post";
+    }
+
+    @GetMapping("/admin/posts/search")
+    public String searchPosts(@RequestParam(value = "query") String query,
+                              Model model){
+        List<PostDto> posts = postService.searchPosts(query);
+        model.addAttribute("postList", posts);
+        return "admin/posts";
     }
 
     private static String getUrl(String postTitle) {
