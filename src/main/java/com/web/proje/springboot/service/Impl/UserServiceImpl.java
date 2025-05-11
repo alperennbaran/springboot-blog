@@ -9,6 +9,7 @@ import com.web.proje.springboot.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @Service
@@ -31,8 +32,17 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(registrationDto.getFirstName() + " " + registrationDto.getLastName());
         user.setEmail(registrationDto.getEmail());
-        // use spring security to encrypt the password
+        // Şifreyi encryptlemek için spring security'i kullandık.
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+
+        if (registrationDto.getProfileImage() != null && !registrationDto.getProfileImage().isEmpty()) {
+            try {
+                user.setProfileImage(registrationDto.getProfileImage().getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         Role role = roleRepository.findByName("ROLE_GUEST");
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);

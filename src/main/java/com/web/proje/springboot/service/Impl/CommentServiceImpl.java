@@ -38,6 +38,10 @@ public class CommentServiceImpl implements CommentService {
         Post post = postRepository.findByUrl(postUrl).get();
         Comment comment = CommentMapper.toComment(commentDto);
         comment.setPost(post);
+        // aktif kullanıcıyı al ve yoruma ekle
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User user = userRepository.findByEmail(email);
+        comment.setUser(user);
         commentRepository.save(comment);
     }
 

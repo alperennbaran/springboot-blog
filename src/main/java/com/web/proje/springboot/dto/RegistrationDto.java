@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -22,4 +23,5 @@ public class RegistrationDto {
     private String email;
     @NotEmpty(message = "Password should not be empty")
     private String password;
+    private MultipartFile profileImage;
 }

@@ -13,6 +13,8 @@ public class CommentMapper {
                 .content(comment.getContent())
                 .createdOn(comment.getCreatedOn())
                 .updatedOn(comment.getUpdatedOn())
+                .userId(comment.getUser().getId())
+                .profileImage(comment.getUser().getProfileImage())
                 .build();
     }
 

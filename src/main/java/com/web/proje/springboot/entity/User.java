@@ -33,4 +33,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles = new ArrayList<>();
+    @Lob
+    @Column(name = "profile_image", columnDefinition = "LONGBLOB")
+    private byte[] profileImage;
 }
+
