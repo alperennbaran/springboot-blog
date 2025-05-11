@@ -23,7 +23,6 @@ public class CommentController {
         this.postService = postService;
     }
 
-    // handler method to create form submit request
     @PostMapping("/{postUrl}/comments")
     public String createComment(@PathVariable("postUrl") String postUrl,
                                 @Valid @ModelAttribute("comment") CommentDto commentDto,
