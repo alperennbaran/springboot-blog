@@ -2,9 +2,12 @@ package com.web.proje.springboot.service.Impl;
 
 import com.web.proje.springboot.dto.PostDto;
 import com.web.proje.springboot.entity.Post;
+import com.web.proje.springboot.entity.User;
 import com.web.proje.springboot.mapper.PostMapper;
 import com.web.proje.springboot.repository.PostRepository;
+import com.web.proje.springboot.repository.UserRepository;
 import com.web.proje.springboot.service.PostService;
+import com.web.proje.springboot.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +18,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class PostServiceImpl implements PostService {
-    private PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @Override
     public List<PostDto> findAllPosts() {
@@ -26,8 +30,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostDto> findPostsByUser() {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User createdBy = userRepository.findByEmail(email);
+        Long userId = createdBy.getId();
+        List<Post> posts = postRepository.findPostsByUser(userId);
+        return posts.stream()
+                .map(PostMapper::toPostDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void createPost(PostDto postDto) {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User user = userRepository.findByEmail(email);
         Post post = PostMapper.toPost(postDto);
+        post.setCreatedBy(user);
         postRepository.save(post);
     }
 
@@ -39,7 +57,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void updatePost(PostDto postDto) {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User createdBy = userRepository.findByEmail(email);
         Post post = PostMapper.toPost(postDto);
+        post.setCreatedBy(createdBy);
         postRepository.save(post);
     }
 

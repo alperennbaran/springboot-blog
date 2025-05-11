@@ -1,8 +1,13 @@
 package com.web.proje.springboot.controller;
 
+import com.web.proje.springboot.dto.CommentDto;
 import com.web.proje.springboot.dto.PostDto;
+import com.web.proje.springboot.service.CommentService;
 import com.web.proje.springboot.service.PostService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,9 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @Controller
 public class PostController {
     private PostService postService;
+    @Autowired
+    private CommentService commentService;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -23,6 +31,19 @@ public class PostController {
         List<PostDto> postList = postService.findAllPosts();
         model.addAttribute("postList", postList);
         return "/admin/posts";
+    }
+
+    @GetMapping("/admin/posts/comments")
+    public String postComments(Model model){
+        List<CommentDto> commentList = commentService.findAllComments();
+        model.addAttribute("commentList", commentList);
+        return "/admin/comments";
+    }
+
+    @GetMapping("/admin/posts/comments/{commentId}")
+    public String deleteComment(@PathVariable("commentId") Long commentId){
+        commentService.deleteComment(commentId);
+        return "redirect:/admin/posts/comments";
     }
 
     @GetMapping("admin/posts/newpost")
