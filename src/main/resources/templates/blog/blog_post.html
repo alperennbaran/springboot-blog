@@ -20,10 +20,10 @@
                 <h3>Comments:</h3>
                 <div th:each = "comment: ${post.comments}">
                     <div>
+                        <img th:src="@{/profile/image/{userId}(userId=${comment.userId})}" width="50" height="50" />
                         <p><b>Name:</b><strong th:text="${comment.name}"></strong></p>
                         <p><b>Date:<strong th:text="${#temporals.format(comment.createdOn, 'dd MMMM yyyy')}"></strong></b></p>
                         <p th:text="${comment.content}"></p>
-                        <img th:src="@{/profile/image/{userId}(userId=${comment.userId})}" width="50" height="50" />
                         <br />
                     </div>
                 </div>
