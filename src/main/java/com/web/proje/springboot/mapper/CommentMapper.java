@@ -8,8 +8,9 @@ public class CommentMapper {
     public static CommentDto toCommentDto(Comment comment){
         return CommentDto.builder()
                 .id(comment.getId())
-                .name(comment.getName())
-                .email(comment.getEmail())
+                //Kullanıcı giriş yaparak yorum yaptığı için getUser() üzerinden name,email ve userID aldık.
+                .name(comment.getUser().getName())
+                .email(comment.getUser().getEmail())
                 .content(comment.getContent())
                 .createdOn(comment.getCreatedOn())
                 .updatedOn(comment.getUpdatedOn())
@@ -22,8 +23,6 @@ public class CommentMapper {
     public static Comment toComment(CommentDto commentDto){
         return Comment.builder()
                 .id(commentDto.getId())
-                .name(commentDto.getName())
-                .email(commentDto.getEmail())
                 .content(commentDto.getContent())
                 .createdOn(commentDto.getCreatedOn())
                 .updatedOn(commentDto.getUpdatedOn())

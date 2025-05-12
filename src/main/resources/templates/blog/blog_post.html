@@ -38,33 +38,6 @@
                                 th:action="@{/{postUrl}/comments(postUrl=${post.url})}"
                                 th:object="${comment}"
                         >
-                            <div class="row">
-                                <div class="col-md-5 mb-3">
-                                    <input
-                                            class="form-control"
-                                            id="name"
-                                            name="name"
-                                            placeholder="Enter name"
-                                            th:field="*{name}"
-                                            type="text"
-                                    />
-                                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></p>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-5 mb-3">
-                                    <input
-                                            class="form-control"
-                                            id="email"
-                                            name="email"
-                                            placeholder="Enter email"
-                                            th:field="*{email}"
-                                            type="text"
-                                    />
-                                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></p>
-                                </div>
-                            </div>
 
                             <div class="row">
                                 <div class="col-md-9 mb-3">
