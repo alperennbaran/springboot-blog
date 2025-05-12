@@ -42,6 +42,8 @@ public class CommentServiceImpl implements CommentService {
         String email = SecurityUtils.getCurrentUser().getUsername();
         User user = userRepository.findByEmail(email);
         comment.setUser(user);
+        comment.setName(user.getName());
+        comment.setEmail(user.getEmail());
         commentRepository.save(comment);
     }
 

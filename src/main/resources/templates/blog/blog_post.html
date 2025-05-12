@@ -13,14 +13,14 @@
             <hr/>
             <h4 th:text="${post.shortDescription}"></h4>
             <hr />
-            <div th:utext="${post.content}">
+            <div class="post-content" th:utext="${post.content}">
             </div>
             <hr />
             <div>
                 <h3>Comments:</h3>
                 <div th:each = "comment: ${post.comments}">
                     <div>
-                        <img th:src="@{/profile/image/{userId}(userId=${comment.userId})}" width="50" height="50" />
+                        <img th:src="@{/profile/image/{userId}(userId=${comment.userId})}" width="100" height="100" style="border-radius:50%; object-fit:cover;" />
                         <p><b>Name:</b><strong th:text="${comment.name}"></strong></p>
                         <p><b>Date:<strong th:text="${#temporals.format(comment.createdOn, 'dd MMMM yyyy')}"></strong></b></p>
                         <p th:text="${comment.content}"></p>
@@ -68,9 +68,8 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-3">
-            <!-- search bar goes here            <-->
+            <!-- Search Bar            <-->
             <div th:replace="blog/search :: search"></div>
         </div>
     </div>
